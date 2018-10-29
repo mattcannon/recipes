@@ -12,8 +12,7 @@ class RecipesTest extends TestCase
     /** @test */
     public function should_show_recent_recipes()
     {
-        $recipes = factory(Recipe::class, 10)->create();
-
+        $recipes = factory(Recipe::class, 5)->create();
         $this->get(route('home'))
             ->assertSuccessful()
             ->assertSee('Recent Recipes')
