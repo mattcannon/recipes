@@ -9,14 +9,30 @@ use Tests\TestCase;
 class RecipesTest extends TestCase
 {
     use RefreshDatabase;
+
     /** @test */
-    public function should_show_recent_recipes()
+    public function should_show_no_recipes_message()
+    {
+        $this->get(route('home'))
+            ->assertSuccessful()
+            ->assertSee('Recent Recipes')
+            ->assertSee('No recent recipes');
+    }
+
+    /** @test */
+    public function should_show_recent_recipes_on_homepage()
     {
         $recipes = factory(Recipe::class, 5)->create();
         $this->get(route('home'))
             ->assertSuccessful()
             ->assertSee('Recent Recipes')
             ->assertSeeInOrder($recipes->pluck('title')->toArray())
-            ->assertSeeInOrder($recipes->pluck('steps')->toArray());
+            ->assertSeeInOrder($recipes->pluck('abstract')->toArray())
+            ->assertSeeInOrder($recipes->pluck('id')->map([$this, 'toShowLink'])->toArray());
+    }
+
+    public function toShowLink($item)
+    {
+        return route('recipe.show', $item);
     }
 }
