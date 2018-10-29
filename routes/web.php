@@ -12,4 +12,4 @@
 */
 
 Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
-Route::get('/recipe/{id}', ['as' => 'recipe.show', 'uses' => 'RecipeController@show']);
+Route::get('/recipe/{recipe}', ['as' => 'recipe.show', 'uses' => 'RecipesController@show']);

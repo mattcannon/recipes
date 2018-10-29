@@ -44,6 +44,7 @@ class Recipe extends Resource
         return [
             ID::make()->sortable(),
             Text::make('Title'),
+            Markdown::make('Abstract'),
             Markdown::make('Steps')
         ];
     }
