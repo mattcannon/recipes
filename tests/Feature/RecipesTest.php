@@ -31,6 +31,19 @@ class RecipesTest extends TestCase
             ->assertSeeInOrder($recipes->pluck('id')->map([$this, 'toShowLink'])->toArray());
     }
 
+    /** @test */
+    public function should_show_recipe()
+    {
+        $this->withoutExceptionHandling();
+        $md = new \Parsedown();
+        $recipe = factory(Recipe::class)->create();
+        $this->get(route('recipe.show', [$recipe]))
+            ->assertSuccessful()
+            ->assertSee($recipe->title)
+            ->assertSee($md->text($recipe->abstract))
+            ->assertSee($md->text($recipe->steps));
+    }
+
     public function toShowLink($item)
     {
         return route('recipe.show', $item);
